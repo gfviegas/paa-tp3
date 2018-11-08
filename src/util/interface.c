@@ -22,7 +22,7 @@ void printHeader(int analysisMode) {
     cprintf(BLUE, "\n \t Ao Resolvedor COQUETEL !");
     printLine();
 
-    printMenu(analysisMode);
+    // printMenu(analysisMode);
 }
 
 // void printMenu(int analysisMode) {

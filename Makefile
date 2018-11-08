@@ -1,23 +1,32 @@
 SOURCEDIR = src
-BUILDDIR  = build
+BUILDDIR  = build/
 
 HEADERS = $(shell find . -name '*.h')
 SOURCES = $(shell find . -name '*.c')
 # OBJFILES = $(patsubst $(SOURCEDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
-OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
+OBJFILES = $(patsubst %.c, %.o, $(SOURCES))
 
 CC       = gcc
 CFLAGS   = -c -Wall
 LDFLAGS  =
-OBJFILES = main.o fileReader.o interface.o logger.o
+# OBJFILES = main.o fileReader.o interface.o logger.o
 TARGET   = tp3
 
 all: $(TARGET)
 
 $(TARGET): $(OBJFILES)
-	$(CC) $(CFLAGS) $(HEADERS) $(SOURCES) -o $(TARGET) $(OBJFILES) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(HEADERS) $(SOURCES) $(LDFLAGS)
+	$(CC) -o $(BUILDDIR)$(TARGET) $(OBJFILES)
+	make cleanO
+
+cleanO:
+	rm -f $(shell find . -name '*.o') $(shell find . -name '*.h.gch') *~
 clean:
-	rm -f $(OBJFILES) $(TARGET) *~
+	rm -f $(OBJFILES) $(TARGET) $(shell find . -name '*.h.gch') *~
+run:
+	./build/tp3
+analysis:
+	./build/tp3 -a
 
 # LIBRARIES=
 # INC=
