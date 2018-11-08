@@ -11,17 +11,19 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "util/interface.h"
+#include "util/logger.h"
 
 int main(int argc, const char * argv[]) {
+	clearOutput();
+
     // Modo default é o modo normal
     int programMode = NORMAL_MODE;
 
     for (int i = 0; i < argc; i++)
         if (strcmp(argv[i], "-a") == 0) programMode = ANALYSIS_MODE;
 
-    prePrompt();
+    cprintf(RED, "Análise = %d", programMode);
 
-
+	printf("\n");
     return 0;
 }

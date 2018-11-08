@@ -8,6 +8,7 @@
 #ifndef logger_h
 #define logger_h
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <ctype.h>
@@ -39,6 +40,11 @@ typedef enum AvailableColors {
     MAGENTA, // Magenta
     CYAN // Ciano
 } AvailableColors;
+
+/**
+ * Limpa o terminal. Abstraída para não ter que importar a stdlib em toda biblioteca
+ */
+void clearOutput(void);
 
 /**
  * Colored-Printf. Imprime uma mensagem no stdout, como no printf, mas colorido

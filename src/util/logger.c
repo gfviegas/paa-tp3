@@ -7,6 +7,11 @@
 
 #include "logger.h"
 
+// Limpa o terminal. Abstraída para não ter que importar a stdlib em toda biblioteca
+void clearOutput(void) {
+	system("clear");
+}
+
 // Colored-Printf. Imprime uma mensagem no stdout, como no printf, mas colorido
 void cprintf(AvailableColors color, const char* fmt, ...) {
     static const char* colors[] = {
@@ -28,7 +33,7 @@ void cprintf(AvailableColors color, const char* fmt, ...) {
 }
 
 // Imprime uma linha de tamanho LINE_SIZE, em cor Ciano
-void printLine (void) {
+void printLine(void) {
     printf("\n");
 
     for (int i = 0; i < LINE_SIZE; i++)

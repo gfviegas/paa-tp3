@@ -13,7 +13,7 @@ void prePrompt(void) {
 }
 
 void printHeader(int analysisMode) {
-    system("clear");
+    clearOutput();
     if (analysisMode) cprintf(RED, " *** \n [STATS] MODO ANALISE ATIVADO! \n *** \n");
 
     printf("\n\n");
