@@ -24,6 +24,6 @@ void openFile(FILE** file, char *filePath) {
     }
 }
 
-void readLine(FILE* file, char* buffer) {
-    fgets(buffer, FILE_BUFFER_SIZE, (FILE*) file);
+char* readLine(FILE* file, char* buffer) {
+    return fgets(buffer, FILE_BUFFER_SIZE, (FILE*) file);
 }

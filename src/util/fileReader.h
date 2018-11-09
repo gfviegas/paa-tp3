@@ -20,6 +20,6 @@ void promptFilePath(char* filePath);
 
 void openFile(FILE** file, char* filePath);
 
-void readLine(FILE* file, char* buffer);
+char* readLine(FILE* file, char* buffer);
 
 #endif /* fileReader_h */
