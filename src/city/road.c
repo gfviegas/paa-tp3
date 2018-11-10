@@ -50,8 +50,7 @@ void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, Coordin
 		direction = (directionChar == 'L') ? EAST : (directionChar == 'N') ? NORTH : NONE;
 		if (direction == NONE) continue;
 
-		addConstruction(constructionsList, position, direction);
-		printAllConstructions(constructionsList);
+		addConstruction(&constructionsList, position, direction);
     }
 
 	printAllConstructions(constructionsList);
@@ -60,8 +59,14 @@ void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, Coordin
 	Direction dir2 = NORTH;
 	Coordinates pos2;
 	pos2.x = 2;
-	pos2.x = 2;
-	cprintf(YELLOW, "Tem obra na posicao (%d, %d)? = %d", 2, 2, checkConstruction(constructionsList, pos2, dir2));
+	pos2.y = 2;
+	cprintf(YELLOW, "Tem obra na posicao (%d, %d) na direção %c? = %d\n", 2, 2, directionLabel(dir2), checkConstruction(constructionsList, pos2, dir2));
+	pos2.x = 1;
+	pos2.y = 2;
+	dir2 = EAST;
+	cprintf(YELLOW, "Tem obra na posicao (%d, %d) na direção %c? = %d\n", 1, 2, directionLabel(dir2), checkConstruction(constructionsList, pos2, dir2));
+	dir2 = NORTH;
+	cprintf(YELLOW, "Tem obra na posicao (%d, %d) na direção %c? = %d\n", 1, 2, directionLabel(dir2), checkConstruction(constructionsList, pos2, dir2));
 
 	scanf("%d", &x);
 

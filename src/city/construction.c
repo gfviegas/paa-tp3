@@ -17,21 +17,20 @@ ConstructionPointer createConstruction(Coordinates position, Direction direction
 	return construction;
 }
 
-boolean addConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction) {
+boolean addConstruction(ConstructionPointer *constructionsList, Coordinates position, Direction direction) {
 	ConstructionPointer newConstruction = createConstruction(position, direction);
 	if (isConstructionEmpty(newConstruction)) return FALSE;
 
-	if (isConstructionEmpty(constructionsList)) {
-		constructionsList = newConstruction;
-		return !isConstructionEmpty(constructionsList);
+	if (isConstructionEmpty(*constructionsList)) {
+		*constructionsList = newConstruction;
+		return !isConstructionEmpty(*constructionsList);
 	}
 
-	ConstructionPointer lastConstruction = constructionsList;
+	ConstructionPointer lastConstruction = *constructionsList;
 
-	while (lastConstruction->next == NULL) {
+	while (!isConstructionEmpty(lastConstruction->next)) {
 		lastConstruction = lastConstruction->next;
 	}
-
 
 	lastConstruction->next = newConstruction;
 	return TRUE;
@@ -40,18 +39,17 @@ boolean addConstruction(ConstructionPointer constructionsList, Coordinates posit
 boolean checkConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction) {
 	if (isConstructionEmpty(constructionsList)) return FALSE;
 
-	Construction currentConstruction = *constructionsList;
+	ConstructionPointer currentConstruction = constructionsList;
 
-	while (!isConstructionEmpty(&currentConstruction)) {
-		printf("(%d, %d) : %d\n", currentConstruction.position.x, currentConstruction.position.y, currentConstruction.direction);
+	while (!isConstructionEmpty(currentConstruction)) {
 		if (
-			(currentConstruction.active) &&
-			(currentConstruction.position.x == position.x) &&
-			(currentConstruction.position.y == position.y) &&
-			(currentConstruction.direction == direction)
+			(currentConstruction->active) &&
+			(currentConstruction->position.x == position.x) &&
+			(currentConstruction->position.y == position.y) &&
+			(currentConstruction->direction == direction)
 		) return TRUE;
 
-		currentConstruction = *(currentConstruction.next);
+		currentConstruction = currentConstruction->next;
 	}
 
 	return FALSE;
@@ -59,8 +57,9 @@ boolean checkConstruction(ConstructionPointer constructionsList, Coordinates pos
 
 void printConstruction(Construction construction) {
 	cprintf(CYAN, "*** CONSTRUÇÃO #%p ***\n", construction);
+	cprintf(CYAN, "Ativo: %s\n", (construction.active) ? "sim" : "não");
 	cprintf(CYAN, "Coordenadas: (%d, %d)\n", construction.position.x, construction.position.y);
-	cprintf(CYAN, "Direção: %s\n", directionLabel(construction.direction));
+	cprintf(CYAN, "Direção: %c\n", directionLabel(construction.direction));
 	cprintf(CYAN, "************\n");
 }
 
@@ -70,10 +69,10 @@ void printAllConstructions(ConstructionPointer constructionsList) {
 		return;
 	}
 
-	Construction currentConstruction = *constructionsList;
+	ConstructionPointer currentConstruction = constructionsList;
 
-	do {
-		printConstruction(currentConstruction);
-		currentConstruction = *(currentConstruction.next);
-	} while (!isConstructionEmpty(&currentConstruction));
+	while (!isConstructionEmpty(currentConstruction)) {
+		printConstruction(*currentConstruction);
+		currentConstruction = currentConstruction->next;
+	}
 }

@@ -21,7 +21,7 @@ boolean isConstructionEmpty(ConstructionPointer construction);
 
 ConstructionPointer createConstruction(Coordinates position, Direction direction);
 
-boolean addConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction);
+boolean addConstruction(ConstructionPointer *constructionsList, Coordinates position, Direction direction);
 
 boolean checkConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction);
 
