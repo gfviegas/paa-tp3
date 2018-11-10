@@ -59,7 +59,7 @@ void printConstruction(Construction construction) {
 	cprintf(CYAN, "*** CONSTRUÇÃO #%p ***\n", construction);
 	cprintf(CYAN, "Ativo: %s\n", (construction.active) ? "sim" : "não");
 	cprintf(CYAN, "Coordenadas: (%d, %d)\n", construction.position.x, construction.position.y);
-	cprintf(CYAN, "Direção: %c\n", directionLabel(construction.direction));
+	cprintf(CYAN, "Direção: %c\n", directionToLabel(construction.direction));
 	cprintf(CYAN, "************\n");
 }
 

@@ -1,6 +1,11 @@
 #include "direction.h"
 
-char directionLabel(Direction direction) {
-	char label = (direction == EAST) ? 'E' : (direction == NORTH) ? 'N' : '-';
+char directionToLabel(Direction direction) {
+	char label = (direction == EAST) ? 'L' : (direction == NORTH) ? 'N' : '-';
 	return label;
+}
+
+Direction labelToDirection(char label) {
+	Direction direction = (label == 'L') ? EAST : (label == 'N') ? NORTH : NONE;
+	return direction;
 }

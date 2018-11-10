@@ -17,10 +17,11 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
 
     switch (choice) {
         case 1:
-            loadRoadMatrix(&matrix, linesAmount, columnsAmount, origin, destination, constructionsList);
+            loadRoadMatrix(&matrix, linesAmount, columnsAmount, origin, destination, &constructionsList);
             break;
         case 2:
-            // _searchWord(matrix, *linesAmount, *columnsAmount, analysisMode);
+            solve(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList);
+
             break;
         case 3:
             return printHeader(analysisMode);
@@ -29,6 +30,7 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
             break;
     }
 
+	scanf("%d", &choice);
     return _promptAction(matrix, linesAmount, columnsAmount, origin, destination, constructionsList, analysisMode);
 }
 

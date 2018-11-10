@@ -23,6 +23,8 @@ typedef struct Coordinates {
 	int y;
 } Coordinates;
 
-char directionLabel(Direction direction);
+char directionToLabel(Direction direction);
+
+Direction labelToDirection(char label);
 
 #endif
