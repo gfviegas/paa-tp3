@@ -15,21 +15,8 @@
 #include "../util/fileReader.h"
 #include "../util/matrix.h"
 #include "../util/logger.h"
-
-/**
-* Direções disponíveis para percorrer a cidade.
-*/
-typedef enum Direction {
- NONE, // Nenhuma
- EAST, // Leste
- NORTH, // Norte
-} Direction;
-
-typedef struct Coordinates* CoordinatesPointer;
-typedef struct Coordinates {
-	int x;
-	int y;
-} Coordinates;
+#include "construction.h"
+#include "direction.h"
 
 /**
 * A partir de um arquivo de descrição do problema que o usuário fornece, cria e preenche a matriz com seus dados
@@ -37,7 +24,6 @@ typedef struct Coordinates {
 * @param linesAmount   Ponteiro da quantidade de linhas da matriz
 * @param columnsAmount Ponteiro da quantidade de colunas da matriz
 */
-void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination);
-
+void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList);
 
 #endif /* road_h */

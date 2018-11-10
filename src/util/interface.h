@@ -16,12 +16,18 @@
 #include "logger.h"
 // #include "../sudoku/sudoku.h"
 // #include "../sudoku/interfaceS.h"
-// #include "../wordHunt/interfaceWH.h"
+#include "../city/interfaceCity.h"
 
 /**
  * [prePrompt description]
  */
 void prePrompt(void);
+
+/**
+ * [printMenu description]
+ * @param analysisMode [description]
+ */
+void printMenu(int analysisMode);
 
 /**
  * [printHeader description]

@@ -12,6 +12,7 @@
 #include <string.h>
 
 #include "util/logger.h"
+#include "util/interface.h"
 
 int main(int argc, const char * argv[]) {
 	clearOutput();
@@ -22,7 +23,8 @@ int main(int argc, const char * argv[]) {
     for (int i = 0; i < argc; i++)
         if (strcmp(argv[i], "-a") == 0) programMode = ANALYSIS_MODE;
 
-    cprintf(RED, "Análise = %d", programMode);
+
+	printHeader(programMode);
 
 	printf("\n");
     return 0;
