@@ -14,8 +14,7 @@
 #include <string.h>
 
 #include "logger.h"
-// #include "../sudoku/sudoku.h"
-// #include "../sudoku/interfaceS.h"
+#include "../pyramid/pyramid.h"
 #include "../city/interfaceCity.h"
 
 /**

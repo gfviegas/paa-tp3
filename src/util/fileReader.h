@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "logger.h"
 #include "interface.h"
+#include "string.h"
 
 #define FILE_PATH_BUFFER_SIZE 150
 #define FILE_BUFFER_SIZE 255
