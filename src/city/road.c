@@ -45,64 +45,129 @@ void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, Coordin
 		addConstruction(constructionsList, position, direction);
     }
 
-	printAllConstructions(*constructionsList);
-	printIntMatrix(matrix, *linesAmount, *columnsAmount, "Teste", CYAN, YELLOW);
-
-	/**
-	 * TESTES
-	 */
-	Direction dir2 = NORTH;
-	Coordinates pos2;
-	pos2.x = 2;
-	pos2.y = 2;
-	cprintf(YELLOW, "Tem obra na posicao (%d, %d) na direção %c? = %d\n", 2, 2, directionToLabel(dir2), checkConstruction(*constructionsList, pos2, dir2));
-	pos2.x = 1;
-	pos2.y = 2;
-	dir2 = EAST;
-	cprintf(YELLOW, "Tem obra na posicao (%d, %d) na direção %c? = %d\n", 1, 2, directionToLabel(dir2), checkConstruction(*constructionsList, pos2, dir2));
-	dir2 = NORTH;
-	cprintf(YELLOW, "Tem obra na posicao (%d, %d) na direção %c? = %d\n", 1, 2, directionToLabel(dir2), checkConstruction(*constructionsList, pos2, dir2));
-	/**
-	 * FIM TESTES
-	 */
-
+	cprintf(BLUE, "[INFO] Arquivo lido com sucesso!\n");
     fclose(file);
 }
 
-int positionArrayX(int x) {
+int XtoArrayIndex(int x) {
 	return x - 1;
 }
-int positionArrayY(int y, int linesAmount) {
+
+int YtoArrayIndex(int y, int linesAmount) {
 	return linesAmount - y;
+}
+
+int arrayIndexToX(int j) {
+	return j + 1;
+}
+
+int arrayIndexToY(int i, int linesAmount) {
+	return linesAmount - i;
 }
 
 
 boolean solve(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList) {
-	printAllConstructions(constructionsList);
-	cprintf(YELLOW, "\n [INFO] Matrix: %d x %d \n", linesAmount, columnsAmount);
 	cprintf(YELLOW, "[INFO] Origem: (%d, %d) \n", origin->x, origin->y);
 	cprintf(YELLOW, "[INFO] Destino: (%d, %d) \n", destination->x, destination->y);
 
-	(*matrix)[positionArrayY(destination->y, linesAmount)][positionArrayX(destination->x)] = 1;
+	fillIntMatrix(matrix, linesAmount, columnsAmount, 0);
+	(*matrix)[YtoArrayIndex(destination->y, linesAmount)][XtoArrayIndex(destination->x)] = 1;
 
 	for (int y = destination->y; y >= origin->y; y--) {
 		for (int x = destination->x; x >= origin->x; x--) {
 			Coordinates currentPosition = {x, y};
-			int cpArrayY = positionArrayY(y, linesAmount);
-			int cpArrayX = positionArrayX(x);
+			int cpArrayY = YtoArrayIndex(y, linesAmount);
+			int cpArrayX = XtoArrayIndex(x);
 
 			if (y < columnsAmount && !checkConstruction(constructionsList, currentPosition, NORTH)) {
-				int cpArrayY2 = positionArrayY(y + 1, linesAmount);
+				int cpArrayY2 = YtoArrayIndex(y + 1, linesAmount);
 				(*matrix)[cpArrayY][cpArrayX] += (*matrix)[cpArrayY2][cpArrayX];
 			}
 
 			if (x < linesAmount && !checkConstruction(constructionsList, currentPosition, EAST)) {
-				int cpArrayX2 = positionArrayX(x + 1);
+				int cpArrayX2 = XtoArrayIndex(x + 1);
 				(*matrix)[cpArrayY][cpArrayX] += (*matrix)[cpArrayY][cpArrayX2];
 			}
 		}
 	}
 
-	printIntMatrix(matrix, linesAmount, columnsAmount, "Solução", CYAN, YELLOW);
+	printCity(matrix, linesAmount, columnsAmount, "Solução", constructionsList, FALSE);
+	printSolutionPath(matrix, linesAmount, columnsAmount, origin, destination, constructionsList);
+
 	return TRUE;
+}
+
+void printSolutionPath(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList) {
+	int **pathMatrix = NULL;
+	pathMatrix = createIntMatrix(linesAmount, columnsAmount);
+	fillIntMatrix(&pathMatrix, linesAmount, columnsAmount, NONE);
+
+	Coordinates currentPosition = *origin;
+	int cpArrayY, cpArrayX;
+
+	pathMatrix[YtoArrayIndex(destination->y, linesAmount)][XtoArrayIndex(destination->x)] = -1;
+
+	while (currentPosition.x != destination->x || currentPosition.y != destination->y) {
+		cpArrayY = YtoArrayIndex(currentPosition.y, linesAmount);
+		cpArrayX = XtoArrayIndex(currentPosition.x);
+
+		if (currentPosition.y < linesAmount && (*matrix)[cpArrayY][cpArrayX] > 0 && !checkConstruction(constructionsList, currentPosition, NORTH)) {
+			pathMatrix[cpArrayY][cpArrayX] = NORTH;
+			currentPosition.y += 1;
+			continue;
+		}
+		if (currentPosition.x < columnsAmount && (*matrix)[cpArrayY][cpArrayX] > 0 && !checkConstruction(constructionsList, currentPosition, EAST)) {
+			pathMatrix[cpArrayY][cpArrayX] = EAST;
+			currentPosition.x += 1;
+			continue;
+		}
+	}
+
+	printCity(&(pathMatrix), linesAmount, columnsAmount, "Caminho Válido", constructionsList, TRUE);
+	free(pathMatrix);
+}
+
+void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, ConstructionPointer constructionsList, boolean printPath) {
+	int precision = ((columnsAmount*1.25 * 1.5) + 2) + ((int) strlen(header) / 2);
+
+	printMatrixLine(columnsAmount*1.25, 1, 1, BLUE);
+	cprintf(MAGENTA, "%*s", precision, header);
+	printMatrixLine(columnsAmount*1.25, 1, 1, BLUE);
+
+	for (int i = 0; i < linesAmount; i++) {
+		if (i > 0) {
+			cprintf(CYAN, " | ");
+			for (int j = 0; j < columnsAmount; j++) {
+				Coordinates currentPosition = {arrayIndexToX(j), arrayIndexToY(i, linesAmount)};
+				AvailableColors colorToPrint = (checkConstruction(constructionsList, currentPosition, NORTH)) ? RED : GREEN;
+
+				if (j < columnsAmount - 1) cprintf(colorToPrint, "==");
+				printf("  ");
+			}
+			cprintf(CYAN, " |\n");
+		}
+
+		cprintf(CYAN, " | ");
+		for (int j = 0; j < columnsAmount; j++) {
+			Coordinates currentPosition = {arrayIndexToX(j), arrayIndexToY(i, linesAmount)};
+			AvailableColors colorToPrint = (checkConstruction(constructionsList, currentPosition, EAST)) ? RED : GREEN;
+
+			if (!printPath) {
+				cprintf(YELLOW, "%.2d", (*matrix)[i][j]);
+			} else if ((*matrix)[i][j] == NORTH) {
+				cprintf(YELLOW, "/\\");
+			} else if ((*matrix)[i][j] == EAST) {
+				cprintf(YELLOW, "->");
+			} else if ((*matrix)[i][j] == -1) {
+				cprintf(YELLOW, "**");
+			} else {
+				cprintf(YELLOW, "  ");
+			}
+
+			if (j < columnsAmount - 1) cprintf(colorToPrint, "||");
+		}
+		cprintf(CYAN, " |\n");
+	}
+
+	printMatrixLine(columnsAmount*1.25, 1, 1, BLUE);
 }

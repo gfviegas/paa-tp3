@@ -8,6 +8,13 @@
 
 #include "interface.h"
 
+void pressEnterToContinue(void) {
+	cprintf(RED, "\n Pressione enter para continuar...\n");
+	int enter = -1;
+	getchar();
+	while (enter != '\n' && enter != '\r') { enter = getchar(); }
+}
+
 void prePrompt(void) {
     cprintf(YELLOW, "->  ");
 }

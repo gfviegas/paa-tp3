@@ -7,7 +7,7 @@
 
 #include "matrix.h"
 
-// Aloca a memória para uma matriz de tamanho linesAmount x columnsAmount
+// Aloca a memória para uma matriz de inteiros de tamanho linesAmount x columnsAmount
 int** createIntMatrix(int linesAmount, int columnsAmount) {
     int **matrix = (int **) malloc(linesAmount * sizeof(int *));
 
@@ -23,7 +23,6 @@ void fillIntMatrix(int ***matrix, int linesAmount, int columnsAmount, int value)
         for (int j = 0; j < columnsAmount; j++)
             (*matrix)[i][j] = value;
 }
-
 
 // Imprime uma linha com o tamanho da matriz, para fazer uma borda, quebrando ou não linhas antes e depois
 void printMatrixLine(int size, int brBefore, int brAfter, AvailableColors borderColor) {
@@ -44,10 +43,9 @@ void printIntMatrix(int ***matrix, int linesAmount, int columnsAmount, char* hea
 	for (int i = 0; i < linesAmount; i++) {
 		cprintf(borderColor, " | ");
 		for (int j = 0; j < columnsAmount; j++)
-			cprintf(valueColor, " %d ", (*matrix)[i][j]);
+			cprintf(valueColor, " %.2d ", (*matrix)[i][j]);
 		cprintf(borderColor, " |\n");
 	}
 
 	printMatrixLine(columnsAmount, 0 , 1, BLUE);
-
 }

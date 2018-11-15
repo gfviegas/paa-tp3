@@ -21,7 +21,6 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
             break;
         case 2:
             solve(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList);
-
             break;
         case 3:
             return printHeader(analysisMode);
@@ -30,7 +29,7 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
             break;
     }
 
-	scanf("%d", &choice);
+	pressEnterToContinue();
     return _promptAction(matrix, linesAmount, columnsAmount, origin, destination, constructionsList, analysisMode);
 }
 

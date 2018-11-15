@@ -14,7 +14,7 @@
 #include "logger.h"
 
 /**
- * Aloca a memória para uma matriz de tamanho linesAmount x columnsAmount
+ * Aloca a memória para uma matriz de de inteiros tamanho linesAmount x columnsAmount
  * @param  linesAmount   Quantidade de linhas da matriz
  * @param  columnsAmount Quantidade de colunas da matriz
  * @return Ponteiro para a matriz alocada
@@ -34,7 +34,7 @@ void printMatrixLine(int size, int brBefore, int brAfter, AvailableColors border
 
 /**
 * Imprime uma matriz entre uma bonita borda
-* @param matrix        Ponteiro para a matriz de caracteres a ser manipulada
+* @param matrix        Ponteiro para a matriz de inteiros a ser impressa
 * @param linesAmount   Quantidade de linhas da matriz
 * @param columnsAmount Quantidade de colunas da matriz
 * @param header        Mensagem a ser impressa no cabeçalho da borda

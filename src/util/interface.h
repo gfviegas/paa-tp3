@@ -18,6 +18,11 @@
 #include "../city/interfaceCity.h"
 
 /**
+ * [pressEnterToContinue description]
+ */
+void pressEnterToContinue(void);
+
+/**
  * [prePrompt description]
  */
 void prePrompt(void);
