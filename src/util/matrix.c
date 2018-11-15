@@ -43,7 +43,7 @@ void printIntMatrix(int ***matrix, int linesAmount, int columnsAmount, char* hea
 	for (int i = 0; i < linesAmount; i++) {
 		cprintf(borderColor, " | ");
 		for (int j = 0; j < columnsAmount; j++)
-			cprintf(valueColor, " %.2d ", (*matrix)[i][j]);
+			cprintf(valueColor, " %d ", (*matrix)[i][j]);
 		cprintf(borderColor, " |\n");
 	}
 
