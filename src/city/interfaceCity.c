@@ -20,7 +20,11 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
             loadRoadMatrix(&matrix, linesAmount, columnsAmount, origin, destination, &constructionsList);
             break;
         case 2:
-            solve(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList);
+            if (solve(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList)) {
+				printSolutionPath(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList);
+			} else {
+				cprintf(RED, "Não existe nenhum caminho válido!");
+			}
             break;
         case 3:
             return printHeader(analysisMode);

@@ -15,13 +15,14 @@
 
 
 // Código ANSI das cores para colorir o terminal
-#define ANSI_COLOR_RED      "\x1b[31m"
-#define ANSI_COLOR_GREEN    "\x1b[32m"
-#define ANSI_COLOR_YELLOW   "\x1b[33m"
-#define ANSI_COLOR_BLUE     "\x1b[34m"
-#define ANSI_COLOR_MAGENTA  "\x1b[35m"
-#define ANSI_COLOR_CYAN     "\x1b[36m"
-#define ANSI_COLOR_RESET    "\x1b[0m"
+#define ANSI_COLOR_RED      	"\x1b[31m"
+#define ANSI_COLOR_GREEN    	"\x1b[32m"
+#define ANSI_COLOR_YELLOW   	"\x1b[33m"
+#define ANSI_COLOR_BLUE     	"\x1b[34m"
+#define ANSI_COLOR_MAGENTA  	"\x1b[35m"
+#define ANSI_COLOR_CYAN     	"\x1b[36m"
+#define ANSI_COLOR_RESET    	"\x1b[0m"
+#define ANSI_BACKGROUND_YELLOW	"\u001b[43;1m"
 
 // Tamanho da linha a ser impressa diversas vezes
 #define LINE_SIZE 60
@@ -38,7 +39,8 @@ typedef enum AvailableColors {
     YELLOW, // Amarelo
     BLUE, // Azul
     MAGENTA, // Magenta
-    CYAN // Ciano
+    CYAN, // Ciano
+	BACKGROUND_YELLOW // Amarelo de BG
 } AvailableColors;
 
 /**

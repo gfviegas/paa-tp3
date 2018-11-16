@@ -32,6 +32,7 @@ void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, Coordin
 
     *matrix = createIntMatrix(*linesAmount, *columnsAmount);
 	fillIntMatrix(matrix, *linesAmount, *columnsAmount, 0);
+	clearConstructionList(constructionsList);
 
     while (readLine(file, currentLine)) {
 		Coordinates position;
@@ -91,10 +92,8 @@ boolean solve(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPoin
 		}
 	}
 
-	printCity(matrix, linesAmount, columnsAmount, "Solução", constructionsList, FALSE);
-	printSolutionPath(matrix, linesAmount, columnsAmount, origin, destination, constructionsList);
-
-	return TRUE;
+	printCity(matrix, linesAmount, columnsAmount, "Solução", constructionsList, FALSE, origin);
+	return ((*matrix)[YtoArrayIndex(destination->y, linesAmount)][XtoArrayIndex(destination->x)] > 0);
 }
 
 void printSolutionPath(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList) {
@@ -111,23 +110,29 @@ void printSolutionPath(int ***matrix, int linesAmount, int columnsAmount, Coordi
 		cpArrayY = YtoArrayIndex(currentPosition.y, linesAmount);
 		cpArrayX = XtoArrayIndex(currentPosition.x);
 
-		if (currentPosition.y < linesAmount && (*matrix)[cpArrayY][cpArrayX] > 0 && !checkConstruction(constructionsList, currentPosition, NORTH)) {
+		int cpArrayYAux = YtoArrayIndex(currentPosition.y + 1, linesAmount);
+		int cpArrayXAux = XtoArrayIndex(currentPosition.x + 1);
+
+		if (currentPosition.y < linesAmount && (*matrix)[cpArrayYAux][cpArrayX] > 0 && !checkConstruction(constructionsList, currentPosition, NORTH)) {
 			pathMatrix[cpArrayY][cpArrayX] = NORTH;
 			currentPosition.y += 1;
 			continue;
 		}
-		if (currentPosition.x < columnsAmount && (*matrix)[cpArrayY][cpArrayX] > 0 && !checkConstruction(constructionsList, currentPosition, EAST)) {
+		if (currentPosition.x < columnsAmount && (*matrix)[cpArrayY][cpArrayXAux] > 0 && !checkConstruction(constructionsList, currentPosition, EAST)) {
 			pathMatrix[cpArrayY][cpArrayX] = EAST;
 			currentPosition.x += 1;
 			continue;
 		}
+
+		cprintf(RED, "Erro inesperado em (%d, %d). Tente mais tarde. \n", currentPosition.x, currentPosition.y);
+		return;
 	}
 
-	printCity(&(pathMatrix), linesAmount, columnsAmount, "Caminho Válido", constructionsList, TRUE);
+	printCity(&(pathMatrix), linesAmount, columnsAmount, "Caminho Válido", constructionsList, TRUE, origin);
 	free(pathMatrix);
 }
 
-void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, ConstructionPointer constructionsList, boolean printPath) {
+void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, ConstructionPointer constructionsList, boolean printPath, CoordinatesPointer origin) {
 	int precision = ((columnsAmount*1.25 * 1.5) + 2) + ((int) strlen(header) / 2);
 
 	printMatrixLine(columnsAmount*1.25, 1, 1, BLUE);
@@ -139,10 +144,10 @@ void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, 
 			cprintf(CYAN, " | ");
 			for (int j = 0; j < columnsAmount; j++) {
 				Coordinates currentPosition = {arrayIndexToX(j), arrayIndexToY(i, linesAmount)};
-				AvailableColors colorToPrint = (checkConstruction(constructionsList, currentPosition, NORTH)) ? RED : GREEN;
+				AvailableColors colorRoad = (checkConstruction(constructionsList, currentPosition, NORTH)) ? RED : GREEN;
 
-				if (j < columnsAmount - 1) cprintf(colorToPrint, "==");
-				printf("  ");
+				cprintf(colorRoad, "==");
+				if (j < columnsAmount - 1) printf("  ");
 			}
 			cprintf(CYAN, " |\n");
 		}
@@ -150,21 +155,22 @@ void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, 
 		cprintf(CYAN, " | ");
 		for (int j = 0; j < columnsAmount; j++) {
 			Coordinates currentPosition = {arrayIndexToX(j), arrayIndexToY(i, linesAmount)};
-			AvailableColors colorToPrint = (checkConstruction(constructionsList, currentPosition, EAST)) ? RED : GREEN;
+			AvailableColors colorRoad = (checkConstruction(constructionsList, currentPosition, EAST)) ? RED : GREEN;
+			AvailableColors colorDirection = (currentPosition.x == origin->x && currentPosition.y == origin->y) ? BACKGROUND_YELLOW : YELLOW;
 
 			if (!printPath) {
 				cprintf(YELLOW, "%.2d", (*matrix)[i][j]);
 			} else if ((*matrix)[i][j] == NORTH) {
-				cprintf(YELLOW, "/\\");
+				cprintf(colorDirection, "/\\");
 			} else if ((*matrix)[i][j] == EAST) {
-				cprintf(YELLOW, "->");
+				cprintf(colorDirection, "->");
 			} else if ((*matrix)[i][j] == -1) {
-				cprintf(YELLOW, "**");
+				cprintf(BACKGROUND_YELLOW, "**");
 			} else {
 				cprintf(YELLOW, "  ");
 			}
 
-			if (j < columnsAmount - 1) cprintf(colorToPrint, "||");
+			if (j < columnsAmount - 1) cprintf(colorRoad, "||");
 		}
 		cprintf(CYAN, " |\n");
 	}

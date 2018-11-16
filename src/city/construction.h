@@ -23,6 +23,8 @@ ConstructionPointer createConstruction(Coordinates position, Direction direction
 
 boolean addConstruction(ConstructionPointer *constructionsList, Coordinates position, Direction direction);
 
+void clearConstructionList(ConstructionPointer *constructionsList);
+
 boolean checkConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction);
 
 void printConstruction(Construction construction);

@@ -20,7 +20,8 @@ void cprintf(AvailableColors color, const char* fmt, ...) {
         ANSI_COLOR_YELLOW,
         ANSI_COLOR_BLUE,
         ANSI_COLOR_MAGENTA,
-        ANSI_COLOR_CYAN
+        ANSI_COLOR_CYAN,
+		ANSI_BACKGROUND_YELLOW
     };
 
     char buffer[CPRINTF_BUFFER_LENGTH];

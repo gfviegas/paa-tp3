@@ -36,6 +36,18 @@ boolean addConstruction(ConstructionPointer *constructionsList, Coordinates posi
 	return TRUE;
 }
 
+void clearConstructionList(ConstructionPointer *constructionsList) {
+	ConstructionPointer currentConstruction = *constructionsList;
+
+	while (currentConstruction != NULL) {
+		ConstructionPointer aux = currentConstruction;
+		currentConstruction = currentConstruction->next;
+		free(aux);
+	}
+
+	*constructionsList = NULL;
+}
+
 boolean checkConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction) {
 	if (isConstructionEmpty(constructionsList)) return FALSE;
 
