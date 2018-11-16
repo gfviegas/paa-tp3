@@ -22,7 +22,7 @@ with open(filePath, 'w+') as f:
     for i in range(0, N):
         linha = ""
         for j in range(0, i + 1):
-            linha += str(randint(1, maxRandom))
-        f.write('{}\n'.format(linha))
+            f.write('{} '.format(randint(1, maxRandom)))
+        f.write('\n')
 
 print('Arquivo gerado com sucesso em {}'.format(filePath))
