@@ -156,7 +156,7 @@ void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, 
 		for (int j = 0; j < columnsAmount; j++) {
 			Coordinates currentPosition = {arrayIndexToX(j), arrayIndexToY(i, linesAmount)};
 			AvailableColors colorRoad = (checkConstruction(constructionsList, currentPosition, EAST)) ? RED : GREEN;
-			AvailableColors colorDirection = (currentPosition.x == origin->x && currentPosition.y == origin->y) ? BACKGROUND_YELLOW : YELLOW;
+			AvailableColors colorDirection = (currentPosition.x == origin->x && currentPosition.y == origin->y) ? BLUE : YELLOW;
 
 			if (!printPath) {
 				cprintf(YELLOW, "%.2d", (*matrix)[i][j]);
@@ -165,7 +165,7 @@ void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, 
 			} else if ((*matrix)[i][j] == EAST) {
 				cprintf(colorDirection, "->");
 			} else if ((*matrix)[i][j] == -1) {
-				cprintf(BACKGROUND_YELLOW, "**");
+				cprintf(BLUE, "**");
 			} else {
 				cprintf(YELLOW, "  ");
 			}
