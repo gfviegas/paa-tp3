@@ -31,5 +31,5 @@ boolean solve(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPoin
 
 void printSolutionPath(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList);
 
-void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, ConstructionPointer constructionsList, boolean printPath);
+void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, ConstructionPointer constructionsList, boolean printPath, CoordinatesPointer origin);
 #endif /* road_h */

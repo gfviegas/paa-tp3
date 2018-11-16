@@ -40,6 +40,7 @@ ConstructionPointer createConstruction(Coordinates position, Direction direction
  */
 boolean addConstruction(ConstructionPointer *constructionsList, Coordinates position, Direction direction);
 
+<<<<<<< HEAD
 /**
  * Checa se uma determinada construção está na Lista
  * @param  constructionsList Lista de construções a ser verificada
@@ -47,6 +48,10 @@ boolean addConstruction(ConstructionPointer *constructionsList, Coordinates posi
  * @param  direction         Direção da construção a ser verificada
  * @return                   Boolean representando se ela foi ou não encontrada
  */
+=======
+void clearConstructionList(ConstructionPointer *constructionsList);
+
+>>>>>>> d621461a5a8bba4ca25c3a12e902e37a5f343697
 boolean checkConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction);
 /**
  * Exibe construção, se ela é ativa, sua posição, direção e código
