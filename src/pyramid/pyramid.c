@@ -8,6 +8,7 @@ void loadPyramidMatrix(int ***matrix, int *size){
     FILE *file = NULL;
     if (*matrix != NULL) free(*matrix);
 
+    cprintf(BLUE,"[CAMINHO] (resources/pyramid.txt)");
     promptFilePath(fileName);
     openFile(&file, fileName);
 

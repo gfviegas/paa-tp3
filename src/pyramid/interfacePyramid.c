@@ -7,7 +7,6 @@ void _pyramidInitial(int analysisMode){
     system("clear");
     cprintf(GREEN,"[MODO PIRÂMIDE]");
     loadPyramidMatrix(&matrix, &size);
-    cprintf(BLUE,"(resources/pyramid.txt)");
     _pyramidMenu(analysisMode, &matrix, size);
 }
 

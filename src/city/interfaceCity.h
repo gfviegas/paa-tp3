@@ -20,7 +20,7 @@
 #include "road.h"
 
 /**
- * [description]
+ * Exibe o menu para resolver o problema da cidade
  * @param analysisMode Flag se está no modo análise (1) ou não (0)
  */
 void _cityMenu(int analysisMode);
