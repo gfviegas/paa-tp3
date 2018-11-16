@@ -4,7 +4,7 @@ void loadPyramidMatrix(int ***matrix, int *size){
     char fileName[FILE_BUFFER_SIZE];
     char currentLine[FILE_BUFFER_SIZE];
     int i=0,j=0;
-    int calls = 0;
+    (*size) = 0;
     FILE *file = NULL;
     if (*matrix != NULL) free(*matrix);
 
@@ -14,103 +14,163 @@ void loadPyramidMatrix(int ***matrix, int *size){
     while(readLine(file, currentLine)) {
         (*size)++;
     }
-    Movements path[*size];
     fclose(file);
     (*matrix) = createIntMatrix((*size),(*size));
     fillIntMatrix(matrix, (*size), (*size), 0);
 
     openFile(&file, fileName);
     while(i < (*size)){
-        for(j=0; j<= i; j++){
+        for(j=0; j<= i; j++) {
             (j == i) ? fscanf(file, "%d\n", &(*matrix)[i][j]) : fscanf(file, "%d ", &(*matrix)[i][j]);
         }
         i++;
     }
+    cprintf(GREEN, "Arquivo carregado!");
+    pressEnterToContinue();
     fclose(file);
+}
 
-    printIntMatrix(matrix, (*size), (*size), "teste", RED, YELLOW);
-    printf("O tamanho é %d\n", (*size));
-    printf("PRINTS MOMENTANEOS!!\n");
-    printLine();
-    printf("[recursivo]O caminho mais longo é %d\n", solvePyramidRecursive(matrix, (*size) - 1, 0, 0, path, &calls));
-    for(j = 0; j < (*size) - 1; j++){
-        printf("%s\n", getMovementName(path[j]));
-    }
-    printf("Quantidade de chamadas --> %d\n", calls);
-    calls = 0;
-    printf("[memoization]O caminho mais longo é %d\n", solvePyramidMemoization(matrix, (*size) - 1, 0, 0, path, &calls));
-    for(j = 0; j < (*size) - 1; j++){
-        printf("%s\n", getMovementName(path[j]));
-    }
-    printf("Quantidade de chamadas --> %d\n", calls);
-    calls = 0;
-    printf("\n [PD] O caminho mais longo é %d ", solvePyramidPD(*matrix, (*size) - 1, path, &calls));
-    printf("com %d operações\n", calls);
+void solvePyramidRecursive(int ***matrix, int size, int analysisMode){
+    Movements path[size];
+    int calls = 0, i;
+    int result = pyramidRecursive(matrix, size - 1, 0, 0, path, &calls);
 
+    system("clear");
+    printIntMatrix(matrix, size, size, "Pirâmide", CYAN, YELLOW);
+    cprintf(YELLOW, "O maior caminho encontrado foi --> %d\n", result);
+    cprintf(YELLOW, "O caminho foi -->  ");
+    for(i=0; i<size-1; i++){
+        cprintf(CYAN, "%s ", getMovementName(path[i]));
+    }
+    printf("\n");
+
+    if(analysisMode){
+        cprintf(RED,"[MODO ANALISE]\n");
+        cprintf(RED,"quantidade de chamadas --> %d\n", calls);
+    }
+    pressEnterToContinue();
 }
 
 
-int solvePyramidRecursive(int ***matrix, int size, int i, int j, Movements *path, int *calls){
+int pyramidRecursive(int ***matrix, int size, int i, int j, Movements *path, int *calls){
     (*calls)++;
-    if(i == size)    return (*matrix)[i][j];
+    int right;
+    int result;
+    if(i == size) return (*matrix)[i][j];
 
-    if(solvePyramidRecursive(matrix, size, i + 1, j, path, calls) > solvePyramidRecursive(matrix, size, i + 1, j + 1, path, calls)){
-        path[i] = LEFT;
-        return (*matrix)[i][j] + solvePyramidRecursive(matrix, size, i + 1, j, path, calls);
-    }
-    else{
+    result = (*matrix)[i][j] + max(pyramidRecursive(matrix, size, i + 1, j, path, calls), pyramidRecursive(matrix, size, i + 1, j + 1, path, calls), &right);
+    if (right)
         path[i] = RIGHT;
-        return (*matrix)[i][j] + solvePyramidRecursive(matrix, size, i + 1, j + 1, path, calls);
-    }
+    else
+        path[i] = LEFT;
+    return result;
 }
 
-int solvePyramidMemoization(int ***matrix, int size, int i, int j, Movements *path, int *calls){
-    int **results;
-    results = createIntMatrix(size,size);
-    fillIntMatrix(&results, size, size, 0);
-    return pyramidMemoization(matrix, size, i, j, path, &results, calls);
+void solvePyramidMemoization(int ***matrix, int size, int analysisMode){
+    int **memoization;
+    memoization = createIntMatrix(size,size);
+    fillIntMatrix(&memoization, size, size, 0);
+
+    Movements path[size];
+    int calls = 0, i;
+    int result = pyramidMemoization(matrix, size - 1, 0, 0, path, &memoization, &calls);
+
+    system("clear");
+    printIntMatrix(matrix, size, size, "Pirâmide", CYAN, YELLOW);
+    cprintf(YELLOW, "O maior caminho encontrado foi --> %d\n", result);
+    cprintf(YELLOW, "O caminho foi -->  ");
+    for(i=0; i<size-1; i++){
+        cprintf(CYAN, "%s ", getMovementName(path[i]));
+    }
+    printf("\n");
+
+    if(analysisMode){
+        cprintf(RED,"[MODO ANALISE]\n");
+        cprintf(RED,"quantidade de chamadas --> %d\n", calls);
+    }
+    pressEnterToContinue();
 }
 
 int pyramidMemoization(int ***matrix, int size, int i, int j, Movements *path, int ***results, int *calls){
     (*calls)++;
+    int right;
+    //Se chegou na base da pirâmide retorna
     if(i == size)    return (*matrix)[i][j];
+    //Se possui resultado armazenado retorna
+    if((*results)[i][j] != 0)   return(*results)[i][j];
+    //Armazena resultado
+    (*results)[i][j] = (*matrix)[i][j] + max(pyramidMemoization(matrix, size, i + 1, j, path, results, calls), pyramidMemoization(matrix, size, i + 1, j + 1, path, results, calls), &right);
+    //Verifica o caminho tomado
+    if (right)
+        path[i] = RIGHT;
+    else
+        path[i] = LEFT;
 
-    if((*results)[i][j] != 0){
-
-        return (*matrix)[i][j] + (*results)[i][j];
-    }
-    else if(pyramidMemoization(matrix, size, i + 1, j, path, results, calls) > pyramidMemoization(matrix, size, i + 1, j + 1, path, results, calls)){
-            path[i] = LEFT;
-            (*results)[i][j] = pyramidMemoization(matrix, size, i + 1, j, path, results, calls);
-            return (*matrix)[i][j] + (*results)[i][j];
-        }
-        else{
-            path[i] = RIGHT;
-            (*results)[i][j] = pyramidMemoization(matrix, size, i + 1, j + 1, path, results, calls);
-            return  (*matrix)[i][j] + (*results)[i][j];
-        }
+    return (*results)[i][j];
 }
 
-int solvePyramidPD(int **matrix, int size, Movements *path, int *calls){
-    int **results;
-    results = createIntMatrix(size,size);
-    fillIntMatrix(&results, size, size, 0);
-    return pyramidPD(matrix, size, path, &results, calls);
+void solvePyramidPD(int ***matrix, int size, int analysisMode){
+    int **memoization;
+    memoization = createIntMatrix(size,size);
+    fillIntMatrix(&memoization, size, size, 0);
+
+    Movements path[size];
+    int calls = 0, i;
+    int result = pyramidPD(*matrix, size - 1, path, &memoization, &calls);
+
+    system("clear");
+    printIntMatrix(matrix, size, size, "Pirâmide Original", CYAN, YELLOW);
+    printIntMatrix(&memoization, size, size, "Pirâmide Resultado", CYAN, YELLOW);
+    cprintf(YELLOW,"O maior caminho encontrado foi --> %d\n", result);
+    cprintf(YELLOW, "O caminho foi -->  ");
+    for(i=0; i<size-1; i++){
+        cprintf(CYAN, "%s ", getMovementName(path[i]));
+    }
+    printf("\n");
+
+    if(analysisMode){
+        cprintf(RED,"[MODO ANALISE]\n");
+        cprintf(RED,"quantidade de operações --> %d\n", calls);
+    }
+    pressEnterToContinue();
+
 }
 
 int pyramidPD(int **matrix, int size, Movements *path, int ***results, int *calls){
-    int i, j;
-    for(i = size - 1; i >= 0; i--){
-        for(j = 0; j <= i; j++){
+    int i, j, winner;
+    for(i = size; i >= 0; i--){
+        for(j = 0; j <= i; j++){;
             (*calls)++;
-            matrix[i][j] = matrix[i][j] + max(matrix[i+1][j], matrix[i+1][j+1]);
+            //Se esta na base da piramede
+            if( i == size)
+                (*results)[i][j] = matrix[i][j];
+            else
+                (*results)[i][j] = matrix[i][j] + max((*results)[i+1][j], (*results)[i+1][j+1], &winner);
         }
     }
-    return matrix[0][0];
+    j = 0;
+    //Verificando o caminho tomado
+    for(i = 0; i < size; i++){
+        max((*results)[i+1][j], (*results)[i+1][j+1], &winner);
+        if(winner) {
+            path[i] = RIGHT;
+            j++;
+        }
+        else {
+            path[i] = LEFT;
+
+        }
+
+    }
+    return (*results)[0][0];
 }
 
-int max(int a, int b){
-    if(a>b) return a;
+int max(int a, int b, int *winner) {
+    if(a > b){
+        (*winner) = 0;
+        return a;
+    }
+    (*winner) = 1;
     return b;
 }
 const char* getMovementName(Movements move){

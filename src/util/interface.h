@@ -16,6 +16,7 @@
 #include "logger.h"
 #include "../pyramid/pyramid.h"
 #include "../city/interfaceCity.h"
+#include "../pyramid/interfacePyramid.h"
 
 /**
  * [pressEnterToContinue description]
