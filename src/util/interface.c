@@ -34,8 +34,6 @@ void printHeader(int analysisMode) {
 
 void printMenu(int analysisMode) {
     int choice;
-    int **matrix = NULL;
-    int linesAmount = 0;
 
     cprintf(GREEN, "\n \n Selecione qual problema você deseja resolver : \n\n");
     cprintf(GREEN, "1 - Pirâmides de números\n");
@@ -46,7 +44,7 @@ void printMenu(int analysisMode) {
 
     switch (choice) {
         case 1:
-            loadPyramidMatrix(&matrix, &linesAmount);
+            _pyramidInitial(analysisMode);
             break;
         case 2:
             _cityMenu(analysisMode);
