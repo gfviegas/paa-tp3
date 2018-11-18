@@ -4,13 +4,20 @@
  * Gustavo Viegas (3026) e Heitor Passeado (3055)
  * @author Gustavo Viegas
  */
+
 #ifndef boolean_h
 #define boolean_h
 
 #include <stdlib.h>
 
+// 0 = FALSE, 1 = TRUE
 typedef enum {FALSE, TRUE} boolean;
 
+/**
+ * Converte um inteiro para um valor booleano
+ * @param  number Inteiro a ter o seu valor convertido
+ * @return        Valor booleano convertido a partir do inteiro fornecido
+ */
 boolean toBoolean(int number);
 
 #endif /* boolean_h */

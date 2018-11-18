@@ -7,6 +7,7 @@
 
 #include "boolean.h"
 
+// Converte um inteiro para um valor booleano
 boolean toBoolean(int number) {
 	return (number) ? TRUE : FALSE;
 }

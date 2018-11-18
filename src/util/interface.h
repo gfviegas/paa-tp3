@@ -19,25 +19,25 @@
 #include "../pyramid/interfacePyramid.h"
 
 /**
- * [pressEnterToContinue description]
+ * Imprime uma mensagem de aguardando e aguarda a entrada do usuário para continuar a execução do programa
  */
 void pressEnterToContinue(void);
 
 /**
- * [prePrompt description]
+ * Imprime uma flag que indica a leitura de um dado do usuário
  */
 void prePrompt(void);
 
 /**
- * [printMenu description]
- * @param analysisMode [description]
- */
-void printMenu(int analysisMode);
+* Imprime o cabeçalho do programa
+* @param analysisMode Flag se o modo análise está ativo ou não
+*/
+void printHeader(int analysisMode);
 
 /**
- * [printHeader description]
- * @param analysisMode [description]
+ * Inicializa o programa imprimindo o menu inicial
+ * @param analysisMode Flag se o modo análise está ativo ou não
  */
-void printHeader(int analysisMode);
+void printMenu(int analysisMode);
 
 #endif

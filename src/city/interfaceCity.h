@@ -20,6 +20,18 @@
 #include "road.h"
 
 /**
+ * Imprime as opções do programa e solicita o usuário a funcionalidade desejada
+ * @param matrix            Matriz que representa o problema da cidade
+ * @param linesAmount       Quantidade de linhas da matriz
+ * @param columnsAmount     Quantidade de colunas da matriz
+ * @param origin            Coordenadas da origem do trajeto
+ * @param destination       Coordenadas do destino do trajeto
+ * @param constructionsList Lista de construções da cidade
+ * @param analysisMode      Flag se está no modo análise (1) ou não (0)
+ */
+void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList, int analysisMode);
+
+/**
  * Exibe o menu para resolver o problema da cidade
  * @param analysisMode Flag se está no modo análise (1) ou não (0)
  */

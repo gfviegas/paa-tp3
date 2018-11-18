@@ -1,5 +1,14 @@
+/**
+ * Gerencia e chama as funções relacionadas ao problema de obras na ciade,
+ * imprimindo e lendo os dados necessários
+ *
+ * Gustavo Viegas (3026) e Heitor Passeado (3055)
+ * @author Gustavo Viegas
+ */
+
 #include "interfaceCity.h"
 
+// Imprime as opções do programa e solicita o usuário a funcionalidade desejada
 void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList, int analysisMode) {
     int choice;
 
@@ -20,7 +29,7 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
             loadRoadMatrix(&matrix, linesAmount, columnsAmount, origin, destination, &constructionsList);
             break;
         case 2:
-            if (solve(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList)) {
+            if (solve(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList, analysisMode)) {
 				printSolutionPath(&matrix, *linesAmount, *columnsAmount, origin, destination, constructionsList);
 			} else {
 				cprintf(RED, "Não existe nenhum caminho válido!");
@@ -37,6 +46,7 @@ void _promptAction(int **matrix, int *linesAmount, int *columnsAmount, Coordinat
     return _promptAction(matrix, linesAmount, columnsAmount, origin, destination, constructionsList, analysisMode);
 }
 
+// Exibe o menu para resolver o problema da cidade
 void _cityMenu(int analysisMode) {
     int **matrix = NULL;
     int linesAmount, columnsAmount;

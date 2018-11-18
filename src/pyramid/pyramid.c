@@ -8,7 +8,7 @@ void loadPyramidMatrix(int ***matrix, int *size){
     FILE *file = NULL;
     if (*matrix != NULL) free(*matrix);
 
-    cprintf(BLUE,"[CAMINHO] (resources/pyramid.txt)");
+    cprintf(BLUE,"[CAMINHO] (Exemplo: resources/pyramid/pyramid.txt)");
     promptFilePath(fileName);
     openFile(&file, fileName);
 
@@ -32,6 +32,9 @@ void loadPyramidMatrix(int ***matrix, int *size){
 }
 
 void solvePyramidRecursive(int ***matrix, int size, int analysisMode){
+	clock_t startTime;
+	if (analysisMode) startTime = beginBenchmark();
+
     Movements path[size];
     int calls = 0, i;
     int result = pyramidRecursive(matrix, size - 1, 0, 0, path, &calls);
@@ -45,10 +48,11 @@ void solvePyramidRecursive(int ***matrix, int size, int analysisMode){
     }
     printf("\n");
 
-    if(analysisMode){
-        cprintf(RED,"[MODO ANALISE]\n");
-        cprintf(RED,"quantidade de chamadas --> %d\n", calls);
+    if (analysisMode) {
+		cprintf(RED, "\t[STATS] Quantidade de chamadas: %d\n", calls);
+		finishBenchmark(startTime, MILISECONDS);
     }
+
     pressEnterToContinue();
 }
 
@@ -68,6 +72,9 @@ int pyramidRecursive(int ***matrix, int size, int i, int j, Movements *path, int
 }
 
 void solvePyramidMemoization(int ***matrix, int size, int analysisMode){
+	clock_t startTime;
+	if (analysisMode) startTime = beginBenchmark();
+
     int **memoization;
     memoization = createIntMatrix(size,size);
     fillIntMatrix(&memoization, size, size, 0);
@@ -85,10 +92,11 @@ void solvePyramidMemoization(int ***matrix, int size, int analysisMode){
     }
     printf("\n");
 
-    if(analysisMode){
-        cprintf(RED,"[MODO ANALISE]\n");
-        cprintf(RED,"quantidade de chamadas --> %d\n", calls);
+	if (analysisMode) {
+		cprintf(RED, "\t[STATS] Quantidade de chamadas: %d\n", calls);
+		finishBenchmark(startTime, MILISECONDS);
     }
+
     pressEnterToContinue();
 }
 
@@ -112,7 +120,10 @@ int pyramidMemoization(int ***matrix, int size, int i, int j, Movements *path, i
     return (*results)[i][j];
 }
 
-void solvePyramidPD(int ***matrix, int size, int analysisMode){
+void solvePyramidPD(int ***matrix, int size, int analysisMode) {
+	clock_t startTime;
+	if (analysisMode) startTime = beginBenchmark();
+
     int **memoization;
     memoization = createIntMatrix(size,size);
     fillIntMatrix(&memoization, size, size, 0);
@@ -131,12 +142,12 @@ void solvePyramidPD(int ***matrix, int size, int analysisMode){
     }
     printf("\n");
 
-    if(analysisMode){
-        cprintf(RED,"[MODO ANALISE]\n");
-        cprintf(RED,"quantidade de operações --> %d\n", calls);
+	if (analysisMode) {
+		cprintf(RED, "\t[STATS] Quantidade de operações: %d\n", calls);
+		finishBenchmark(startTime, MILISECONDS);
     }
-    pressEnterToContinue();
 
+    pressEnterToContinue();
 }
 
 int pyramidPD(int **matrix, int size, Movements *path, int ***results, int *calls){
@@ -176,6 +187,7 @@ int max(int a, int b, int *winner) {
     (*winner) = 1;
     return b;
 }
+
 const char* getMovementName(Movements move){
     if(move == LEFT) return "esquerda ";
     return "direita ";

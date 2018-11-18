@@ -8,6 +8,7 @@
 
 #include "interface.h"
 
+// Imprime uma mensagem de aguardando e aguarda a entrada do usuário para continuar a execução do programa
 void pressEnterToContinue(void) {
 	cprintf(RED, "\n Pressione enter para continuar...\n");
 	int enter = -1;
@@ -15,10 +16,12 @@ void pressEnterToContinue(void) {
 	while (enter != '\n' && enter != '\r') { enter = getchar(); }
 }
 
+// Imprime uma flag que indica a leitura de um dado do usuário
 void prePrompt(void) {
     cprintf(YELLOW, "->  ");
 }
 
+// Imprime o cabeçalho do programa
 void printHeader(int analysisMode) {
     clearOutput();
     if (analysisMode) cprintf(RED, " *** \n [STATS] MODO ANALISE ATIVADO! \n *** \n");
@@ -32,6 +35,7 @@ void printHeader(int analysisMode) {
     printMenu(analysisMode);
 }
 
+// Inicializa o programa imprimindo o menu inicial
 void printMenu(int analysisMode) {
     int choice;
 

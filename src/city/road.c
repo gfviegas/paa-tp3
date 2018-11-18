@@ -8,6 +8,27 @@
 
 #include "road.h"
 
+// Converte uma coordenada X para o seu índice na matriz
+int XtoArrayIndex(int x) {
+	return x - 1;
+}
+
+// Converte uma coordenada Y para o seu índice na matriz
+int YtoArrayIndex(int y, int linesAmount) {
+	return linesAmount - y;
+}
+
+// Converte um índice da matriz onde X está representado para sua coordenada X
+int arrayIndexToX(int j) {
+	return j + 1;
+}
+
+// Converte um índice da matriz onde Y está representado para sua coordenada Y
+int arrayIndexToY(int i, int linesAmount) {
+	return linesAmount - i;
+}
+
+// A partir de um arquivo de descrição do problema que o usuário fornece, cria e preenche a matriz com seus dados
 void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer *constructionsList) {
 	char currentLine[FILE_BUFFER_SIZE];
     char fileName[FILE_BUFFER_SIZE];
@@ -17,6 +38,7 @@ void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, Coordin
 
     if (*matrix != NULL) free(*matrix);
 
+	cprintf(BLUE,"[CAMINHO] (Exemplo: resources/city/city.txt)");
     promptFilePath(fileName);
     openFile(&file, fileName);
 
@@ -50,24 +72,11 @@ void loadRoadMatrix(int ***matrix, int *linesAmount, int *columnsAmount, Coordin
     fclose(file);
 }
 
-int XtoArrayIndex(int x) {
-	return x - 1;
-}
+// Resolve o problema das obras na cidade a partir dos dados fornecidos
+boolean solve(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList, int analysisMode) {
+	clock_t startTime;
+	if (analysisMode) startTime = beginBenchmark();
 
-int YtoArrayIndex(int y, int linesAmount) {
-	return linesAmount - y;
-}
-
-int arrayIndexToX(int j) {
-	return j + 1;
-}
-
-int arrayIndexToY(int i, int linesAmount) {
-	return linesAmount - i;
-}
-
-
-boolean solve(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList) {
 	cprintf(YELLOW, "[INFO] Origem: (%d, %d) \n", origin->x, origin->y);
 	cprintf(YELLOW, "[INFO] Destino: (%d, %d) \n", destination->x, destination->y);
 
@@ -92,10 +101,12 @@ boolean solve(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPoin
 		}
 	}
 
+	if (analysisMode) finishBenchmark(startTime, MICROSECONDS);
 	printCity(matrix, linesAmount, columnsAmount, "Solução", constructionsList, FALSE, origin);
 	return ((*matrix)[YtoArrayIndex(destination->y, linesAmount)][XtoArrayIndex(destination->x)] > 0);
 }
 
+// Imprime um caminho válido depois de resolvido o problema de obras na cidade
 void printSolutionPath(int ***matrix, int linesAmount, int columnsAmount, CoordinatesPointer origin, CoordinatesPointer destination, ConstructionPointer constructionsList) {
 	int **pathMatrix = NULL;
 	pathMatrix = createIntMatrix(linesAmount, columnsAmount);
@@ -132,6 +143,7 @@ void printSolutionPath(int ***matrix, int linesAmount, int columnsAmount, Coordi
 	free(pathMatrix);
 }
 
+// Imprime uma representação da cidade, mostrando suas obras e quantidade de caminhos possíveis até o destino a partir de cada posição
 void printCity(int ***matrix, int linesAmount, int columnsAmount, char* header, ConstructionPointer constructionsList, boolean printPath, CoordinatesPointer origin) {
 	int precision = ((columnsAmount*1.25 * 1.5) + 2) + ((int) strlen(header) / 2);
 

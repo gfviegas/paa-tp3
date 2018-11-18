@@ -20,7 +20,6 @@ print('Gerando arquivo para piramide de altura {:d}'.format(N))
 
 with open(filePath, 'w+') as f:
     for i in range(0, N):
-        linha = ""
         for j in range(0, i + 1):
             f.write('{} '.format(randint(1, maxRandom)))
         f.write('\n')
