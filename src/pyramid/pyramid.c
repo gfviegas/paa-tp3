@@ -94,13 +94,15 @@ void solvePyramidMemoization(int ***matrix, int size, int analysisMode){
 
 int pyramidMemoization(int ***matrix, int size, int i, int j, Movements *path, int ***results, int *calls){
     (*calls)++;
-    int right;
+    int right;//determina se o caminho foi p direita ou esquerda
     //Se chegou na base da pirâmide retorna
     if(i == size)    return (*matrix)[i][j];
     //Se possui resultado armazenado retorna
     if((*results)[i][j] != 0)   return(*results)[i][j];
     //Armazena resultado
-    (*results)[i][j] = (*matrix)[i][j] + max(pyramidMemoization(matrix, size, i + 1, j, path, results, calls), pyramidMemoization(matrix, size, i + 1, j + 1, path, results, calls), &right);
+    (*results)[i][j] = (*matrix)[i][j] + max(pyramidMemoization(matrix, size, i + 1, j, path, results, calls),
+                                             pyramidMemoization(matrix, size, i + 1, j + 1, path, results, calls),
+                                                                &right);
     //Verifica o caminho tomado
     if (right)
         path[i] = RIGHT;

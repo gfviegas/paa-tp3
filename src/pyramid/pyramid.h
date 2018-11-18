@@ -56,21 +56,48 @@ typedef enum Movements{
   * Resolve o problema das pirâmedes com recursão e memoization, exibe os resultados
   * @param  matrix  Matriz que contém os resultados
   * @param  size    Tamanho da matriz
-  * @param  i       Índice das linhas(começa com 0_)
-  * @param  j       [description]
-  * @param  path    [description]
-  * @param  results [description]
-  * @param  calls   [description]
-  * @return         [description]
+  * @param  i       Índice das linhas(começa com 0)
+  * @param  j       Índice das colunas(começa com 0)
+  * @param  path    Vetor com as direções tomadas, esquerda ou direita
+  * @param  results Matriz que contém os resultados gravados
+  * @param  calls   Ponteiro que armazanará quantas chamadas foram feitas
+  * @return         Tamanho do caminho máximo
   */
  int pyramidMemoization(int ***matrix, int size, int i, int j, Movements *path, int ***results, int *calls);
 
-void solvePyramidPD(int ***matrix, int size, int analysisMode);
+ /**
+ * Encapsula variáveis da pyramidPD e exibe os resultados
+ * @param matrix       Matriz a ser resolvida
+ * @param size         Tamanho da matriz
+ * @param analysisMode Se está ou não no modo análise
+ */
+ void solvePyramidPD(int ***matrix, int size, int analysisMode);
 
+ /**
+  * Resolve o problema da pirâmede com programação dinânimca de trás pra frente
+  * @param  matrix  Matriz que contém a pirâmede
+  * @param  size    Tamanho da matriz
+  * @param  path    Vetor com as direões tomadas
+  * @param  results Matriz que conterá o resultado, utilizando o método de ir de trás p frente
+  * @param  calls   Ponteiro que armazanará quantas operações foram feitas
+  * @return         Tamanho do caminho máximo
+  */
  int pyramidPD(int **matrix, int size, Movements *path, int ***results, int *calls);
 
+ /**
+  * Pega o nome do movimento
+  * @param  move
+  * @return string contendo esquerda ou direita dependendo do move
+  */
  const char* getMovementName(Movements move);
 
+ /**
+  * Retorna o máximo entre dois números
+  * @param  a      Número 1
+  * @param  b      Número 2
+  * @param  winner Ponteiro que armazena 0 caso o primeiro ganhe e 1 caso contrário
+  * @return        Maior entre os 2 números;
+  */
  int max(int a, int b, int *winner);
 
  #endif
