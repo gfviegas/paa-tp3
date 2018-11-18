@@ -1,7 +1,7 @@
 #include "interfacePyramid.h"
 
 
-void _pyramidInitial(int analysisMode){
+void _pyramidInitial(int analysisMode) {
     int **matrix = NULL;
     int size;
     system("clear");
@@ -10,7 +10,7 @@ void _pyramidInitial(int analysisMode){
     _pyramidMenu(analysisMode, &matrix, size);
 }
 
-void _pyramidMenu(int analysisMode, int ***matrix, int size){
+void _pyramidMenu(int analysisMode, int ***matrix, int size) {
     int choice;
 
 
@@ -47,5 +47,5 @@ void _pyramidMenu(int analysisMode, int ***matrix, int size){
             pressEnterToContinue();
             break;
     }
-    return _pyramidMenu(analysisMode, matrix, size);
+    return _pyramidMenu (analysisMode, matrix, size);
 }

@@ -7,6 +7,7 @@
 
 #include "benchmark.h"
 
+
 // Converte uma métrica em sua sigla de descrição
 const char* getMetricText(BenchmarkMetrics metric) {
 	return (metric == SECONDS) ? "s" : (metric == MILISECONDS) ? "ms" : (metric == MICROSECONDS) ? "us" : "??";
@@ -25,4 +26,13 @@ void finishBenchmark(clock_t benchmarkStart, BenchmarkMetrics metric) {
 	double result = (double) (benchmarkFinish - benchmarkStart) / metricPerSec;
 	cprintf(RED, "\n\t[STATS] Fim da análise de algoritmo... \n");
 	cprintf(RED, "\t[STATS] Tempo de execução: %.4lf %s\n", result, getMetricText(metric));
+}
+
+double pow(int a, double b){
+	int i;
+	double result = 1;
+	for (i = 0; i < a; i++) {
+		result *= b;
+	}
+	return result;
 }

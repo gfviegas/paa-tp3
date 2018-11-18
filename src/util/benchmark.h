@@ -9,7 +9,7 @@
 #define benchmark_h
 
 #include <stdio.h>
-#include <math.h>
+
 #include <time.h>
 #include "logger.h"
 
@@ -42,5 +42,13 @@ clock_t beginBenchmark(void);
  * @param metric         Métrica para imprimir o resultado
  */
 void finishBenchmark(clock_t benchmarkStart, BenchmarkMetrics metric);
+
+/**
+ * Realiza a potencia
+ * @param  a expoente
+ * @param  b base
+ * @return   resultado da operação
+ */
+double pow(int a, double b);
 
 #endif /* benchmark_h */
