@@ -30,6 +30,13 @@ int** createIntMatrix(int linesAmount, int columnsAmount);
 */
 void fillIntMatrix(int ***matrix, int linesAmount, int columnsAmount, int value);
 
+/**
+ * Imprime uma linha com o tamanho da matriz, para fazer uma borda, quebrando ou não linhas antes e depois
+ * @param size        Tamanho da linha
+ * @param brBefore    Se é para quebrar a linha antes
+ * @param brAfter     Se é pra quebrar a linha depois
+ * @param borderColor Cor da borda
+ */
 void printMatrixLine(int size, int brBefore, int brAfter, AvailableColors borderColor);
 
 /**

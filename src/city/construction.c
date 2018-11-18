@@ -1,9 +1,18 @@
+/**
+ * TAD de Construções. Define uma lista encadeada de construções na cidade
+ *
+ * Gustavo Viegas (3026) e Heitor Passeado (3055)
+ * @author Gustavo Viegas
+ */
+
 #include "construction.h"
 
+// Verifica se uma construção é vazia
 boolean isConstructionEmpty(ConstructionPointer construction) {
 	return toBoolean(construction == NULL);
 }
 
+// Aloca espaço para uma construção
 ConstructionPointer createConstruction(Coordinates position, Direction direction) {
 	ConstructionPointer construction = (ConstructionPointer) malloc(sizeof(struct Construction));
 	if (isConstructionEmpty(construction)) return NULL;
@@ -17,6 +26,7 @@ ConstructionPointer createConstruction(Coordinates position, Direction direction
 	return construction;
 }
 
+// Adiciona uma construção na Lista Encadeada
 boolean addConstruction(ConstructionPointer *constructionsList, Coordinates position, Direction direction) {
 	ConstructionPointer newConstruction = createConstruction(position, direction);
 	if (isConstructionEmpty(newConstruction)) return FALSE;
@@ -36,6 +46,7 @@ boolean addConstruction(ConstructionPointer *constructionsList, Coordinates posi
 	return TRUE;
 }
 
+// Limpa a lista de construções
 void clearConstructionList(ConstructionPointer *constructionsList) {
 	ConstructionPointer currentConstruction = *constructionsList;
 
@@ -48,6 +59,7 @@ void clearConstructionList(ConstructionPointer *constructionsList) {
 	*constructionsList = NULL;
 }
 
+// Checa se uma determinada construção está na Lista
 boolean checkConstruction(ConstructionPointer constructionsList, Coordinates position, Direction direction) {
 	if (isConstructionEmpty(constructionsList)) return FALSE;
 
@@ -67,6 +79,7 @@ boolean checkConstruction(ConstructionPointer constructionsList, Coordinates pos
 	return FALSE;
 }
 
+// Exibe construção, se ela é ativa, sua posição, direção e código
 void printConstruction(Construction construction) {
 	cprintf(CYAN, "*** CONSTRUÇÃO #%p ***\n", construction);
 	cprintf(CYAN, "Ativo: %s\n", (construction.active) ? "sim" : "não");
@@ -75,6 +88,7 @@ void printConstruction(Construction construction) {
 	cprintf(CYAN, "************\n");
 }
 
+// Imprime todas as construções na Lista
 void printAllConstructions(ConstructionPointer constructionsList) {
 	if (isConstructionEmpty(constructionsList)) {
 		cprintf(RED, "\n NENHUMA CONSTRUÇÃO \n");
