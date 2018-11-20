@@ -49,6 +49,6 @@ void finishBenchmark(clock_t benchmarkStart, BenchmarkMetrics metric);
  * @param  b base
  * @return   resultado da operação
  */
-double power(int a, double b);
+double power(double a, double b);
 
 #endif /* benchmark_h */
